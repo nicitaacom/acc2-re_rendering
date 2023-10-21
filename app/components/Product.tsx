@@ -1,22 +1,24 @@
 'use client'
 
-import { useContext } from "react"
-import { ProductContext } from "../context/ProductContext"
+import { memo, useContext, useState } from "react"
 
 export interface IProduct {
+  id:string
   quantity:number
+  setQuantity:(id:string,value:number) => void
 }
 
-export default function Product ({...product}:IProduct) {
+function Product ({...product}:IProduct) {
   console.log("product re-rendering")
-  const {quantity,setQuantity} = useContext(ProductContext)
+  
 return (
     <div>
       Quantity:{product.quantity}
-      <button className="px-4 py-2 bg-transparent border-[1px] border-gray-500 rounded"
-      onClick={() => setQuantity(quantity+1)}>
+      <button className="px-4 py-2 bg-transparent border-[1px] border-gray-500 rounded" onClick={() => product.setQuantity(product.id,product.quantity+1)}>
         +
       </button>
     </div>
 )
 }
+
+export default memo(Product)
